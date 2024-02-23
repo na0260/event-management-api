@@ -24,7 +24,7 @@ class EventController extends Controller
     {
         $event = Event::create([
             $request->validated(),
-            'user_id' => 1
+            'user_id'=>1
         ]);
 
         return $event;
