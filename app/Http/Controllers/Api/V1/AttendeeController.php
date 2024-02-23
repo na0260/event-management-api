@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AttendeeResource;
+use App\Models\Attendee;
 use App\Models\Event;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class AttendeeController extends Controller
      */
     public function index(Event $event)
     {
-        $attendees = $event->attendee()->latest();
+        $attendees = $event->attendees()->latest();
 
         return AttendeeResource::collection(
             $attendees->paginate()
@@ -26,7 +27,7 @@ class AttendeeController extends Controller
      */
     public function store(Request $request, Event $event)
     {
-        $attendee = $event->attendee()->create([
+        $attendee = $event->attendees()->create([
             'user_id'=>1
         ]);
 
@@ -36,24 +37,16 @@ class AttendeeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Event $event, Attendee $attendee)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        return new AttendeeResource($attendee);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Event $event, Attendee $attendee)
     {
-        //
+
     }
 }
