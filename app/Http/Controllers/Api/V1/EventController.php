@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEvent;
-use Illuminate\Http\Request;
+use App\Http\Requests\UpdateEvent;
 use App\Models\Event;
 
 class EventController extends Controller
@@ -41,9 +41,11 @@ class EventController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateEvent $request, Event $event)
     {
-        //
+        $event->update($request->validated());
+
+        return $event;
     }
 
     /**
