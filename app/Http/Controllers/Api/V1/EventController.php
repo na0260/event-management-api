@@ -13,6 +13,11 @@ class EventController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except('index','show');
+    }
+
     public function index()
     {
         return EventResource::collection(
@@ -26,7 +31,7 @@ class EventController extends Controller
     {
         $event = Event::create([
             ...$request->validated(),
-            'user_id'=>1
+            'user_id'=>$request->user()->id
         ]);
 
         return new EventResource($event);
