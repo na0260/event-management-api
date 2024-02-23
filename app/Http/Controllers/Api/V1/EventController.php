@@ -23,7 +23,7 @@ class EventController extends Controller
     public function store(StoreEvent $request)
     {
         $event = Event::create([
-            $request->validated(),
+            ...$request->validated(),
             'user_id'=>1
         ]);
 
