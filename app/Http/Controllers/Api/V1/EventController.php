@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEvent;
 use App\Http\Requests\UpdateEvent;
+use App\Http\Resources\EventResource;
 use App\Models\Event;
 
 class EventController extends Controller
@@ -14,7 +15,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        return Event::all();
+        return EventResource::collection(Event::with('user','attendee')->get());
     }
 
     /**
@@ -27,7 +28,7 @@ class EventController extends Controller
             'user_id'=>1
         ]);
 
-        return $event;
+        return new EventResource($event);
     }
 
     /**
@@ -35,7 +36,8 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        return $event;
+        $event->load('user','attendee');
+        return new EventResource($event);
     }
 
     /**
@@ -45,14 +47,18 @@ class EventController extends Controller
     {
         $event->update($request->validated());
 
-        return $event;
+        return new EventResource($event);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Event $event)
     {
-        //
+        $event->delete();
+
+        return response()->json([
+            'message'=>'Event Deleted Successfully'
+        ]);
     }
 }
