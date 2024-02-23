@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\EventController;
 use App\Http\Controllers\Api\V1\AttendeeController;
+use App\Http\Controllers\Api\V1\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,8 @@ use App\Http\Controllers\Api\V1\AttendeeController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/login',[AuthController::class, 'login']);
 
 Route::apiResource('events',EventController::class);
 Route::apiResource('events.attendees',AttendeeController::class)
